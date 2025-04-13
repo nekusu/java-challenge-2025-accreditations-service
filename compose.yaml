@@ -1,0 +1,11 @@
+name: accreditations-service
+services:
+  postgres:
+    image: chainguard/postgres:latest
+    container_name: accreditations-postgres
+    env_file:
+      - ./.env
+    ports:
+      - 5433:5432
+    tty: true
+    stdin_open: true
