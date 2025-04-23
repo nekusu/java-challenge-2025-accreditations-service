@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 public class AccreditationDTO {
 
     private Long id;
+    private Long userId;
     private Long salePointId;
     private String salePointName;
     private Double amount;
@@ -19,6 +20,7 @@ public class AccreditationDTO {
 
     public AccreditationDTO(Accreditation accreditation) {
         this.id = accreditation.getId();
+        this.userId = accreditation.getUserId();
         this.salePointId = accreditation.getSalePointId();
         this.salePointName = accreditation.getSalePointName();
         this.amount = accreditation.getAmount();

@@ -9,6 +9,7 @@ import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 import com.sharks.accreditations_service.constants.ServiceURLs;
+import com.sharks.accreditations_service.exceptions.AccreditationAccessDeniedException;
 import com.sharks.accreditations_service.exceptions.AccreditationNotFoundException;
 import com.sharks.accreditations_service.exceptions.RestTemplateException;
 import com.sharks.accreditations_service.models.Accreditation;
@@ -30,7 +31,7 @@ public class AccreditationServiceImpl implements AccreditationService {
     }
 
     @Override
-    public List<AccreditationDTO> getAllAccreditations() {
+    public List<AccreditationDTO> getAllAccreditationDTOs() {
         return accreditationRepository.findAll().stream().map(AccreditationDTO::new).toList();
     }
 
@@ -45,9 +46,27 @@ public class AccreditationServiceImpl implements AccreditationService {
     }
 
     @Override
-    public AccreditationDTO createAccreditation(NewAccreditation newAccreditation) {
+    public List<Accreditation> getAccreditationsByUserId(Long userId) {
+        return accreditationRepository.findByUserId(userId);
+    }
+
+    @Override
+    public List<AccreditationDTO> getAccreditationDTOsByUserId(Long userId) {
+        return getAccreditationsByUserId(userId).stream().map(AccreditationDTO::new).toList();
+    }
+
+    @Override
+    public void verifyAccreditationOwnership(Long id, Long userId) {
+        Accreditation order = getAccreditationById(id);
+        if (!userId.equals(order.getUserId()))
+            throw new AccreditationAccessDeniedException();
+    }
+
+    @Override
+    public AccreditationDTO createAccreditation(NewAccreditation newAccreditation, Long userId) {
         SalePointDTO salePointDTO = fetchSalePoint(newAccreditation.salePointId());
         Accreditation accreditation = new Accreditation(
+                userId,
                 salePointDTO.getId(),
                 salePointDTO.getName(),
                 newAccreditation.amount(),

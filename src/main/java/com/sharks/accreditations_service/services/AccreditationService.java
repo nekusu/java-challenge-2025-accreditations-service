@@ -8,11 +8,17 @@ import com.sharks.accreditations_service.models.dtos.NewAccreditation;
 
 public interface AccreditationService {
 
-    List<AccreditationDTO> getAllAccreditations();
+    List<AccreditationDTO> getAllAccreditationDTOs();
 
     Accreditation getAccreditationById(Long id);
 
     AccreditationDTO getAccreditationDTOById(Long id);
 
-    AccreditationDTO createAccreditation(NewAccreditation newAccreditation);
+    List<Accreditation> getAccreditationsByUserId(Long userId);
+
+    List<AccreditationDTO> getAccreditationDTOsByUserId(Long userId);
+
+    void verifyAccreditationOwnership(Long id, Long userId);
+
+    AccreditationDTO createAccreditation(NewAccreditation newAccreditation, Long userId);
 }

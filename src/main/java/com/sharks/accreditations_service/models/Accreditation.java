@@ -34,6 +34,10 @@ public class Accreditation {
 
     @NonNull
     @Column(nullable = false)
+    private Long userId;
+
+    @NonNull
+    @Column(nullable = false)
     private Long salePointId;
 
     @NonNull

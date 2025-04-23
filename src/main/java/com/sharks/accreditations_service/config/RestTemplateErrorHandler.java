@@ -6,10 +6,10 @@ import java.nio.charset.StandardCharsets;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.ResponseErrorHandler;
-import org.springframework.web.server.ResponseStatusException;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sharks.accreditations_service.exceptions.RestTemplateException;
 
 import lombok.NonNull;
 
@@ -27,6 +27,9 @@ public class RestTemplateErrorHandler implements ResponseErrorHandler {
     public void handleError(@NonNull ClientHttpResponse response) throws IOException {
         String errorBody = new String(response.getBody().readAllBytes(), StandardCharsets.UTF_8);
         JsonNode errorAttributes = objectMapper.readTree(errorBody);
-        throw new ResponseStatusException(response.getStatusCode(), errorAttributes.get("message").asText());
+        throw new RestTemplateException(
+                response.getStatusCode(),
+                errorAttributes.get("path").asText(),
+                errorAttributes.get("message").asText());
     }
 }
