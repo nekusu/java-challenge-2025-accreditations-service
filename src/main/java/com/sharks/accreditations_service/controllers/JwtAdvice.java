@@ -20,7 +20,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@RestControllerAdvice
+@RestControllerAdvice(assignableTypes = AccreditationController.class)
 public class JwtAdvice {
 
     private RestTemplate restTemplate;
