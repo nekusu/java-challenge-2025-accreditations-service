@@ -81,6 +81,6 @@ public class AccreditationController {
             @Parameter(hidden = true) @ModelAttribute("user") UserDTO user) {
         if (user.getRole().equals("ADMIN"))
             throw new AccreditationAccessDeniedException("Admins are not allowed to create orders");
-        return accreditationService.createAccreditation(newAccreditation, user.getId());
+        return accreditationService.createAccreditation(newAccreditation, user);
     }
 }

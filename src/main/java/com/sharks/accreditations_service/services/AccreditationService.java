@@ -5,6 +5,7 @@ import java.util.List;
 import com.sharks.accreditations_service.models.Accreditation;
 import com.sharks.accreditations_service.models.dtos.AccreditationDTO;
 import com.sharks.accreditations_service.models.dtos.NewAccreditation;
+import com.sharks.accreditations_service.models.dtos.UserDTO;
 
 public interface AccreditationService {
 
@@ -20,5 +21,5 @@ public interface AccreditationService {
 
     void verifyAccreditationOwnership(Long id, Long userId);
 
-    AccreditationDTO createAccreditation(NewAccreditation newAccreditation, Long userId);
+    AccreditationDTO createAccreditation(NewAccreditation newAccreditation, UserDTO user);
 }

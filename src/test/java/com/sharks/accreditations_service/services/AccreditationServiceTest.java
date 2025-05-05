@@ -7,6 +7,7 @@ import com.sharks.accreditations_service.models.Accreditation;
 import com.sharks.accreditations_service.models.dtos.AccreditationDTO;
 import com.sharks.accreditations_service.models.dtos.NewAccreditation;
 import com.sharks.accreditations_service.models.dtos.SalePointDTO;
+import com.sharks.accreditations_service.models.dtos.UserDTO;
 import com.sharks.accreditations_service.repositories.AccreditationRepository;
 import com.sharks.accreditations_service.services.impl.AccreditationServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,6 +39,7 @@ public class AccreditationServiceTest {
 
     private Accreditation accreditation;
     private NewAccreditation newAccreditation;
+    private UserDTO userDTO;
     private SalePointDTO salePointDTO;
 
     @BeforeEach
@@ -50,6 +52,7 @@ public class AccreditationServiceTest {
                 LocalDate.now());
         ReflectionTestUtils.setField(accreditation, "id", 1L);
         newAccreditation = new NewAccreditation(1L, 100.0);
+        userDTO = new UserDTO(1L, "Test User", "test@email.com", "USER");
         salePointDTO = new SalePointDTO();
         ReflectionTestUtils.setField(salePointDTO, "id", 1L);
         ReflectionTestUtils.setField(salePointDTO, "name", "Test Sale Point");
@@ -129,7 +132,7 @@ public class AccreditationServiceTest {
         when(restTemplate.getForObject(anyString(), eq(SalePointDTO.class))).thenReturn(salePointDTO);
         when(accreditationRepository.save(any(Accreditation.class))).thenReturn(accreditation);
 
-        AccreditationDTO result = accreditationService.createAccreditation(newAccreditation, 1L);
+        AccreditationDTO result = accreditationService.createAccreditation(newAccreditation, userDTO);
         assertNotNull(result);
         assertEquals("Test Sale Point", result.getSalePointName());
         assertEquals(100.0, result.getAmount());
@@ -141,6 +144,6 @@ public class AccreditationServiceTest {
                 .thenThrow(new ResourceAccessException("Service unavailable"));
 
         assertThrows(RestTemplateException.class,
-                () -> accreditationService.createAccreditation(newAccreditation, 1L));
+                () -> accreditationService.createAccreditation(newAccreditation, userDTO));
     }
 }
