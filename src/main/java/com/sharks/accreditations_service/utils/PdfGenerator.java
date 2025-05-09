@@ -57,8 +57,6 @@ public class PdfGenerator {
             addCell(table, String.format("$%.2f", accreditation.getAmount()), Element.ALIGN_RIGHT, false);
 
             document.add(table);
-
-            document.close();
         } catch (Exception e) {
             log.error("Error generating Accreditation PDF: {}", e.getMessage());
             throw new PdfGenerationException("Could not generate accreditation PDF");

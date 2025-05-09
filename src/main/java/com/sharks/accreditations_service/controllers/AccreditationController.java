@@ -36,6 +36,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RequestMapping("/api/accreditations")
 public class AccreditationController {
 
+    private static final String ADMIN_ROLE = "ADMIN";
     private final AccreditationService accreditationService;
 
     public AccreditationController(AccreditationService accreditationService) {
@@ -48,7 +49,7 @@ public class AccreditationController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<AccreditationDTO> getAccreditations(@Parameter(hidden = true) @ModelAttribute("user") UserDTO user) {
-        if (user.getRole().equals("ADMIN"))
+        if (user.getRole().equals(ADMIN_ROLE))
             return accreditationService.getAllAccreditationDTOs();
         return accreditationService.getAccreditationDTOsByUserId(user.getId());
     }
@@ -64,7 +65,7 @@ public class AccreditationController {
     @ResponseStatus(HttpStatus.OK)
     public AccreditationDTO getAccreditationById(@PathVariable Long id,
             @Parameter(hidden = true) @ModelAttribute("user") UserDTO user) {
-        if (!user.getRole().equals("ADMIN"))
+        if (!user.getRole().equals(ADMIN_ROLE))
             accreditationService.verifyAccreditationOwnership(id, user.getId());
         return accreditationService.getAccreditationDTOById(id);
     }
@@ -79,7 +80,7 @@ public class AccreditationController {
     public AccreditationDTO createAccreditation(
             @org.springframework.web.bind.annotation.RequestBody @Valid NewAccreditation newAccreditation,
             @Parameter(hidden = true) @ModelAttribute("user") UserDTO user) {
-        if (user.getRole().equals("ADMIN"))
+        if (user.getRole().equals(ADMIN_ROLE))
             throw new AccreditationAccessDeniedException("Admins are not allowed to create orders");
         return accreditationService.createAccreditation(newAccreditation, user);
     }

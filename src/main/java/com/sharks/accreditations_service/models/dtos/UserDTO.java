@@ -14,5 +14,11 @@ public class UserDTO {
     private Long id;
 
     @NonNull
-    private String username, email, role;
+    private String username;
+
+    @NonNull
+    private String email;
+
+    @NonNull
+    private String role;
 }

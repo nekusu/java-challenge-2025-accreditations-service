@@ -2,6 +2,10 @@ package com.sharks.accreditations_service.constants;
 
 public class ServiceURLs {
 
+    private ServiceURLs() {
+        // Prevent instantiation
+    }
+
     public static final String SALE_POINTS_SERVICE = "http://sale-points-service";
     public static final String SALE_POINTS_ENDPOINT = "/api/sale-points";
     public static final String SALE_POINTS_URL = SALE_POINTS_SERVICE + SALE_POINTS_ENDPOINT;

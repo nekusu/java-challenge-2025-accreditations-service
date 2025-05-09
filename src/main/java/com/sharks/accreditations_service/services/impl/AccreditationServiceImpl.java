@@ -2,6 +2,7 @@ package com.sharks.accreditations_service.services.impl;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.http.HttpStatus;
@@ -73,7 +74,7 @@ public class AccreditationServiceImpl implements AccreditationService {
 
     @Override
     public AccreditationDTO createAccreditation(NewAccreditation newAccreditation, UserDTO user) {
-        SalePointDTO salePointDTO = fetchSalePoint(newAccreditation.salePointId());
+        SalePointDTO salePointDTO = Objects.requireNonNull(fetchSalePoint(newAccreditation.salePointId()));
         Accreditation accreditation = new Accreditation(
                 user.getId(),
                 salePointDTO.getId(),
