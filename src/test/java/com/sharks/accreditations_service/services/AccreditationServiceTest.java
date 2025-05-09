@@ -10,11 +10,14 @@ import com.sharks.accreditations_service.models.dtos.SalePointDTO;
 import com.sharks.accreditations_service.models.dtos.UserDTO;
 import com.sharks.accreditations_service.repositories.AccreditationRepository;
 import com.sharks.accreditations_service.services.impl.AccreditationServiceImpl;
+import com.sharks.accreditations_service.utils.PdfGenerator;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
@@ -26,13 +29,19 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class AccreditationServiceTest {
+class AccreditationServiceTest {
 
     @Mock
     private AccreditationRepository accreditationRepository;
 
     @Mock
     private RestTemplate restTemplate;
+
+    @Mock
+    private AmqpTemplate amqpTemplate;
+
+    @Mock
+    private PdfGenerator pdfGenerator;
 
     @InjectMocks
     private AccreditationServiceImpl accreditationService;
